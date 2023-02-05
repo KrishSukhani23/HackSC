@@ -100,7 +100,7 @@ checkBtn.onclick = async (e) => {
                 console.log(start, end);
 
 
-                const regex = new RegExp(start+'(.+)'+end, 'g');
+                const regex = new RegExp(start+'(.+?)'+end, 'g');
                 console.log(regex)
                 const matches = out.matchAll(regex);
                 console.log(matches);
@@ -121,16 +121,16 @@ checkBtn.onclick = async (e) => {
                     if (!messages[friend]) {
                         messages[friend] = [message];
                     } else {
-                        message[friend].push(message);
+                        messages[friend].push(message);
                     }
                 }
 
                 let htmlDat = ''
                 for(const friend in messages) {
                     htmlDat += `<h6>Messages from ${friend} in the past 24 hours</h6>`
-                    htmlDat += `<div style="padding:5px;">`
+                    htmlDat += `<div style="padding:8px;">`
                     for (const message of messages[friend]) {
-                        htmlDat += message + '<br/>'
+                        htmlDat += '<div style="padding:4px; border-left: 2px solid #00a; margin-top:2px;">' + message + '</div>'
                     }
                     htmlDat += `</div>`
                     htmlDat += '<hr/>'
