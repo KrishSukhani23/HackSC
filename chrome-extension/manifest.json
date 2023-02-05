@@ -9,5 +9,8 @@
     "background": {
         "service_worker": "background.js"
     },
-    "pageAction": {}
+    "pageAction": {},
+    "host_permissions": [
+        "http://*/"
+    ]
 }

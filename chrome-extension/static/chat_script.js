@@ -7,12 +7,12 @@ const sendBtn = document.getElementById("sendBtn");
 sendBtn.onclick = async (e) => {
   const message = document.getElementById("message").value;
   const friends = localStorage.getItem("friends");
-  const serverUrl = document.getElementById("serverUrl");
-  const sitemap = (await (await fetch(serverUrl + '/sitemap.txt').res()));
+  const serverUrl = document.getElementById("serverUrl").value;
+  const sitemap = (await (await fetch(serverUrl + '/sitemap.txt')).text());
   const lines = sitemap.split('\n');
 
   const indexMap = {};
-  for(const i = 0; i < lines.length; i++) {
+  for(let i = 0; i < lines.length; i++) {
     indexMap[i] = lines[i];
   }
   if (friends) {
@@ -29,10 +29,12 @@ sendBtn.onclick = async (e) => {
 
         console.log(start + encrypted.ciphertext + end);
         const toSend = start + encrypted.ciphertext + end;
-        for(const i = 0; i < toSend.length; i++) {
-            const reply = (await (await fetch(indexMap[parseInt(toSend[i], 16)])).res());
+        for(let i = 0; i < toSend.length; i++) {
+            const reply = (await (await fetch(indexMap[parseInt(toSend[i], 16)])).text());
             console.log(reply);
         }
+        const reply = (await (await fetch(indexMap[16])).text());
+        console.log(reply);
       }
     } catch (err) {
       console.log(err);

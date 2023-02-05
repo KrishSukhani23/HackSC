@@ -79,12 +79,12 @@ def decode(image_name):
 if __name__ == "__main__":
     input_image = "image.PNG"
     output_image = "encoded_image.PNG"
-    secret_data = "This is a top secret message."
+    secret_data = "aabbccddee4e807e8de3023610033ab216658da0aaffeeddaa"
     # encode the data into the image
-    encoded_image = encode(image_name=input_image, secret_data=secret_data)
+    # encoded_image = encode(image_name=input_image, secret_data=secret_data)
     # save the output image (encoded image)
-    cv2.imwrite(output_image, encoded_image)
+    # cv2.imwrite(output_image, encoded_image)
     # decode the secret data from the image
-    decoded_data = decode(output_image)
+    decoded_data = decode("image (1).png")
     print("[+] Decoded data:", decoded_data)
 

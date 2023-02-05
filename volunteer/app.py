@@ -9,6 +9,10 @@ app = Flask(__name__)
 def index():
     return render_template('temp.html')
 
+@app.route("/sitemap.txt")
+def sitemap():
+    return render_template('sitemap.txt')
+
 pytrends = TrendReq(hl='en-US', tz=360)
 list_topics = pytrends.trending_searches(pn='united_states').values.tolist()
 

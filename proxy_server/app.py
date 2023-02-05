@@ -6,12 +6,12 @@ import datetime
 app = Flask(__name__, static_folder=None)
 SITE_NAME = "http://localhost:8000"
 
-with open('../volunteer/sitemap.txt') as f:
+with open('../volunteer/templates/sitemap.txt') as f:
     lines = f.read().splitlines()
 
 dict_val = {}
 for i in range(len(lines)):
-    dict_val[lines[i]] = i 
+    dict_val[lines[i]] = i
 
 print(dict_val)
 
@@ -23,6 +23,10 @@ db = mongo.db
 
 
 msg_ip = {}
+
+@app.route('/sitemap.txt')
+def sitemap():
+    return '\n'.join([line.replace(':8000', ':80') for line in lines])
 
 @app.route('/', defaults={'path': ''}, methods=["GET","POST","DELETE"])
 @app.route("/<string:path>",methods=["GET","POST","DELETE"]) 
@@ -42,17 +46,24 @@ def proxy(path):
         print(ip_add)
         if ip_add in msg_ip and val<=15:
             print(msg_ip)
-            msg_ip[ip_add] += f"{val} "
+            msg_ip[ip_add] += hex(val)[2:]
         elif ip_add in msg_ip and val>15:
             print(msg_ip)
             db.messages.insert_one({'message_string': msg_ip[ip_add], "ip-add": ip_add, "updated_at":datetime.datetime.now()})
             del msg_ip[ip_add]
         elif ip_add not in msg_ip and val<=15:
-            msg_ip[ip_add] = f"{val} "
+            msg_ip[ip_add] = hex(val)[2:]
             print(msg_ip)
         elif ip_add not in msg_ip and val>15:
             msg_ip[ip_add] = ""
             print(msg_ip)
+
+    replaced_image = None
+    if path[-4:] == '.png':
+        imagename = path.split('/')[-1]
+        with open('encoded/'+imagename,  'rb') as f:
+            replaced_image = f.read()
+            print('REPLACED!')
 
     
     # db.messages.insert_one({'message_string': val, "ip-add": "127.0.0.0", "updated_at":"date"})
@@ -61,17 +72,17 @@ def proxy(path):
         resp = requests.get(f"{SITE_NAME}/{path}")
         excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
-        response = Response(resp.content, resp.status_code, headers)
+        response = Response(replaced_image if replaced_image else resp.content, resp.status_code, headers)
         return response
     elif request.method=="POST":
         resp = requests.post(f"{SITE_NAME}/{path}",json=request.get_json())
         excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
         headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
-        response = Response(resp.content, resp.status_code, headers)
+        response = Response(replaced_image if replaced_image else resp.content, resp.status_code, headers)
         return response
     elif request.method=="DELETE":
         resp = requests.delete(f"{SITE_NAME}/{path}").content
-        response = Response(resp.content, resp.status_code, headers)
+        response = Response(replaced_image if replaced_image else resp.content, resp.status_code, headers)
         return response
 if __name__ == "__main__":
     app.run(debug = False,port=80)
