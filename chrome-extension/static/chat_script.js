@@ -7,7 +7,7 @@ const sendBtn = document.getElementById("sendBtn");
 sendBtn.onclick = async (e) => {
   const message = document.getElementById("message").value;
   const friends = localStorage.getItem("friends");
-  const serverUrl = document.getElementById("serverUrl");
+  const serverUrl = document.getElementById("serverUrl").value;
   const sitemap = (await (await fetch(serverUrl + '/sitemap.txt').res()));
   const lines = sitemap.split('\n');
 
