@@ -1,5 +1,14 @@
 import cv2
 import numpy as np
+from flask_pymongo import PyMongo
+import datetime
+from flask import Flask,request,redirect,Response
+import time
+
+app = Flask(__name__, static_folder=None)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/message_db"
+mongo = PyMongo(app)
+db = mongo.db
 
 def to_bin(data):
     """Convert `data` to binary format as string"""
@@ -79,12 +88,31 @@ def decode(image_name):
 if __name__ == "__main__":
     input_image = "image.PNG"
     output_image = "encoded_image.PNG"
-    secret_data = "aabbccddee4e807e8de3023610033ab216658da0aaffeeddaa"
-    # encode the data into the image
-    # encoded_image = encode(image_name=input_image, secret_data=secret_data)
-    # save the output image (encoded image)
+    print((time.time() - 24*60*60) * 1000)
+    # data = db.messages.find({"updated_at": 
+    #         "$lt": datetime.datetime.now(),
+    #         "$gt": datetime.datetime.today() - datetime.timedelta(days=1)
+    #         })
+    data = db.messages.find({"updated_at":{ 
+            "$lt": datetime.datetime.now(),
+            "$gt": datetime.datetime.today() - datetime.timedelta(days=1)
+            }}
+    )
+    print(data)
+    final_string = ""
+    for data in data:
+        secret_data = data['message_string']
+        final_string += secret_data
+    # encoded_image = encode(image_name=input_image, secret_data=final_string)
     # cv2.imwrite(output_image, encoded_image)
+    # decoded_data = decode(encoded_image)
+    # print("[+] Decoded data:", decoded_data)
+    print(final_string)
+    # encode the data into the image
+    encoded_image = encode(image_name=input_image, secret_data=final_string)
+    # save the output image (encoded image)
+    cv2.imwrite(output_image, encoded_image)
     # decode the secret data from the image
-    decoded_data = decode("image (1).png")
+    decoded_data = decode('encoded_image.png')
     print("[+] Decoded data:", decoded_data)
 
