@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="./static/materialize/css/materialize.min.css"
+    />
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="./static/materialize/js/materialize.min.js"></script>
+  </head>
+  <body style="min-width: 600px; margin: 0; padding: 10px">
+    <div class="container">
+      <div class="row">
+        <div class="input-field col s12">
+            <input id="serverUrl" type="text" class="validate" />
+            <label for="serverUrl">Server URL</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <h6 style="text-align: center" id="personName"></h6>
+        </div>
+      </div>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="message" class="materialize-textarea"></textarea>
+              <label for="message">Message</label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <a class="btn" id="sendBtn">Send</a>
+        </div>
+      </div>
+    </div>
+    <script src="static/chat_script.js"></script>
+  </body>
+</html>

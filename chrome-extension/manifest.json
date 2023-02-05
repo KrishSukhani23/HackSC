@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "HackSC",
+    "description": "HackSC",
+    "version": "1.0",
+    "action": {
+        "default_popup": "landing.html"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "pageAction": {}
+}
