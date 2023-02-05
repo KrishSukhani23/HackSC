@@ -16,5 +16,8 @@ def most_common(topic):
     for j in search(topic, tld="co.in", num=1, stop=1):
         return j
 
-for i in list_topics:
-    print(most_common(i[0]))
+# for i in list_topics:
+#     print(most_common(i[0]))
+
+if __name__ == "__main__":
+    app.run(debug = False,port=8000)
