@@ -1,8 +1,9 @@
-from flask import Flask,request,redirect,Response
-from flask_pymongo import PyMongo
+from flask import Flask,request,Response
+from pymongo import MongoClient
 import requests
 import datetime
 
+PORT = 9999
 app = Flask(__name__, static_folder=None)
 SITE_NAME = "http://localhost:8000"
 
@@ -15,18 +16,15 @@ for i in range(len(lines)):
 
 print(dict_val)
 
-
-
-app.config["MONGO_URI"] = "mongodb://localhost:27017/message_db"
-mongo = PyMongo(app)
-db = mongo.db
-
+CONNECTION_STRING = "mongodb://localhost:27017/message_db"
+client = MongoClient(CONNECTION_STRING)
+db = client['message_db']
 
 msg_ip = {}
 
 @app.route('/sitemap.txt')
 def sitemap():
-    return '\n'.join([line.replace(':8000', ':80') for line in lines])
+    return '\n'.join([line.replace(':8000', ':'+PORT) for line in lines])
 
 @app.route('/', defaults={'path': ''}, methods=["GET","POST","DELETE"])
 @app.route("/<string:path>",methods=["GET","POST","DELETE"]) 
@@ -85,6 +83,6 @@ def proxy(path):
         response = Response(replaced_image if replaced_image else resp.content, resp.status_code, headers)
         return response
 if __name__ == "__main__":
-    app.run(debug = False,port=80)
+    app.run(debug = False, port=PORT)
 
 

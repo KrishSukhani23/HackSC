@@ -11,9 +11,22 @@
     <!-- Compiled and minified JavaScript -->
     <script src="./static/materialize/js/materialize.min.js"></script>
   </head>
-  <body style="min-width: 600px; margin: 0; padding: 10px">
+  <body style="min-width: 600px; margin: 0; padding: 50px">
     <div class="container">
-      <!-- Page Content goes here -->
+      <div class="row">
+        <div class="col s12">
+            <div class="btn" id="checkBtn" style="width: 100%;">
+              <span>Check Your Messages</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12">
+          <h4 style="margin: auto; text-align: center">Or</h4>
+        </div>
+      </div>
       <div class="row">
         <div class="input-field col s6">
           <select id="personSelect">
@@ -23,7 +36,9 @@
         </div>
         <div class="col s6">
           <div class="valign-wrapper">
-            <a class="waves-effect waves-light btn center-align" id="goBtn">Go!</a>
+            <a class="waves-effect waves-light btn center-align" id="goBtn"
+              >Go!</a
+            >
           </div>
         </div>
       </div>

@@ -31,3 +31,4 @@ http://localhost:8000/making-money-from-your-web-site3.htm
 http://localhost:8000/password3.htm
 http://localhost:8000/tables3.htm
 http://localhost:8000/webspace3.htm
+http://localhost:8000/static/images/image.png

@@ -55,5 +55,10 @@ goBtn.onclick = (e) => {
     console.log('Go clicked!');
     localStorage.setItem("chattingWith", document.getElementById("personSelect").value);
     window.location.href="chat.html";
+}
 
+const checkBtn = document.getElementById('checkBtn');
+checkBtn.onclick = (e) => {
+    console.log('Check clicked!');
+    window.location.href="check_msg.html";
 }
