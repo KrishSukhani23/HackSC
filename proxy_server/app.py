@@ -7,8 +7,8 @@ PORT = 9999
 app = Flask(__name__, static_folder=None)
 SITE_NAME = "http://localhost:8000"
 
-with open('../volunteer/templates/sitemap.txt') as f:
-    lines = f.read().splitlines()
+resp = requests.get(f"{SITE_NAME}/sitemap.txt")
+lines = resp.text.splitlines()
 
 dict_val = {}
 for i in range(len(lines)):
@@ -24,7 +24,7 @@ msg_ip = {}
 
 @app.route('/sitemap.txt')
 def sitemap():
-    return '\n'.join([line.replace(':8000', ':'+PORT) for line in lines])
+    return '\n'.join([line.replace(':8000', ':'+str(PORT)) for line in lines])
 
 @app.route('/', defaults={'path': ''}, methods=["GET","POST","DELETE"])
 @app.route("/<string:path>",methods=["GET","POST","DELETE"]) 

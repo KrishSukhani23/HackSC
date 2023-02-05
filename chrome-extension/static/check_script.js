@@ -35,7 +35,7 @@ checkBtn.onclick = async (e) => {
 
   const messagesConcat = "";
   for (let i = 0; i < merged.length; i++) {
-    const blob = await (await fetch(merged[i])).blob();
+    const blob = await (await fetch(merged[i], {cache: "no-store"})).blob();
     if (blob) {
       console.log(blob);
       if (blob.type === "image/png") {

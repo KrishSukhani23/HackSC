@@ -30,7 +30,7 @@ sendBtn.onclick = async (e) => {
         console.log(start + encrypted.ciphertext + end);
         const toSend = start + encrypted.ciphertext + end;
         for(let i = 0; i < toSend.length; i++) {
-            const reply = (await (await fetch(indexMap[parseInt(toSend[i], 16)])).text());
+            const reply = (await (await fetch(indexMap[parseInt(toSend[i], 16)], {cache: "no-store"})).text());
             console.log(reply);
         }
         const reply = (await (await fetch(indexMap[16])).text());

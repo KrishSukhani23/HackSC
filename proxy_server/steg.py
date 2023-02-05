@@ -90,22 +90,27 @@ if __name__ == "__main__":
         "updated_at":{ "$gt": datetime.datetime.today() - datetime.timedelta(days=1)},
         }
     )
-    image_names = os.listdir(os.path.join(os.getcwd(), 'plain_images'))
+    final_string = ""
+    for data in data:
+        secret_data = data['message_string']
+        final_string += secret_data
+    print(os.listdir(os.path.join(os.getcwd(), 'plain_images')))
+    image_names = list(filter(lambda x:x[-4:] == '.png', os.listdir(os.path.join(os.getcwd(), 'plain_images'))))
+    print(final_string)
     print(image_names)
+    left = True
     for image_name in image_names:
         input_image = os.path.join('plain_images', image_name)
         output_image = os.path.join('encoded', image_name)
         
-        print(data)
-        final_string = ""
-        for data in data:
-            secret_data = data['message_string']
-            final_string += secret_data
-        encoded_image = encode(image_name=input_image, secret_data=final_string)
+        
+        if left:
+            encoded_image = encode(image_name=input_image, secret_data=final_string)
+        else:
+            encoded_image = encode(image_name=input_image, secret_data='')
         cv2.imwrite(output_image, encoded_image)
         # decoded_data = decode(encoded_image)
         # print("[+] Decoded data:", decoded_data)
-        print(final_string)
         # encode the data into the image
         encoded_image = encode(image_name=input_image, secret_data=final_string)
         # save the output image (encoded image)
@@ -114,4 +119,5 @@ if __name__ == "__main__":
         # decode the secret data from the image
         # decoded_data = decode('encoded_image.png')
         # print("[+] Decoded data:", decoded_data)
+        left = False
 
